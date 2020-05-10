@@ -1,6 +1,5 @@
 # javascript-TicTacToe
 The odin project: tic tac toe
-
 /** 
  Setup:
      2 players
@@ -23,3 +22,6 @@ game:
         6a. tie
         6b. requires user reset
 */
+
+TODO:
+- update index to use table instead of dynamically created divs

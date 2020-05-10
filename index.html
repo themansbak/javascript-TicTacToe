@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <html>
-<header>
-    <meta charset="utf-8">
-    <title>Tic Tac Toe</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</header>
-<body>
-    <div class="div-title">
-       <h1>Tic Tac Toe</h1> 
-    </div>
-    <div class="div-option">
-        <button class="option-button" id="pVp">VS Player</button>
-        <button class="option-button" id="pVc">VS Computer</button>
-        <div class="player-option">
-            <input type="text" class="player-input" id="player1-input" placeholder="Player 1 Name">
-            <input type="text" class="player-input" id="player2-input" placeholder="Player 2 Name">
+    <header>
+        <meta charset="utf-8">
+        <title>Tic Tac Toe</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </header>
+    <body>
+        <div class="div-title">
+        <h1>Tic Tac Toe</h1> 
         </div>
-        <button class="start-button">Start</button>
-    </div>
-    <div class="div-board"></div>
-    <button class="reset-button">Reset</button>
-</body>
+        <div class="div-option">
+            <button class="option-button" id="pVp">VS Player</button>
+            <button class="option-button" id="pVc">VS Computer</button>
+            <div class="player-option">
+                <input type="text" class="player-input" id="player1-input" placeholder="Player 1 Name">
+                <input type="text" class="player-input" id="player2-input" placeholder="Player 2 Name">
+            </div>
+            <button class="start-button">Start</button>
+        </div>
+        <table class="tile-table">
+            <tr>
+                <td class="tile"></td>
+                <td class="tile"></td>
+                <td class="tile"></td>
+            </tr>
+            <tr>
+                <td class="tile"></td>
+                <td class="tile"></td>
+                <td class="tile"></td>
+            </tr>
+            <tr>
+                <td class="tile"></td>
+                <td class="tile"></td>
+                <td class="tile"></td>
+            </tr>
+        </table>
+        <button class="reset-button">Reset</button>
+    </body>
+    <script src="source.js"></script>
 </html>
