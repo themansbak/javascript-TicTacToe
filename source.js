@@ -21,7 +21,10 @@ let gameBoard = (function() {
         [1,4,7], [2,5,8], [3,4,5],
         [2,4,6], [6,7,8]
     ];
-    let setTile = (index, player, callback) => {      // player selects tile
+    let resetBoard = () => {
+        board.fill(-1);
+    }
+    let setTile = (index, player) => {      // player selects tile
         board[index] = player.getPiece();   // mark tile
         console.log(checkWinner(player));
         if (checkWinner(player)) {                // check if player won
@@ -58,6 +61,7 @@ let gameBoard = (function() {
     }
     let getBoard = () => { return board; }
     return {
+        resetBoard,
         getBoard,
         setTile,
         checkWinner
@@ -89,6 +93,7 @@ let displayController = (function() { // basically the game controller
         console.log('tie!');
         // update UI
         // freeze UI besides reset button
+        freezeTiles();
     }
     
     return {
@@ -98,6 +103,14 @@ let displayController = (function() { // basically the game controller
         tie
     }
 })();
+
+function resetTiles() {
+    gameBoard.resetBoard();
+    let tiles = Array.from(document.querySelectorAll('.tile'));
+    tiles.forEach( (tile) => {
+        tile.textContent = '';
+    });
+}
 
 function freezeTiles() {
     let tiles = Array.from(document.querySelectorAll('.tile'));
@@ -122,5 +135,7 @@ function initializeTiles() {
         tile.addEventListener('click', markTile);
     });    
 }
+
+document.querySelector('.reset-button').addEventListener('click', resetTiles);
 
 initializeTiles();
