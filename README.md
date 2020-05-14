@@ -24,4 +24,5 @@ game:
 */
 
 TODO:
-- update index to use table instead of dynamically created divs
+- is there a need to have player inputted names?
+    - can i just do player O and player X?

@@ -2,7 +2,7 @@
  * setup player name
  * piece assignment should be done in button eventlistener
  */
-const createPlayer = function(playerName, gamePiece, isAI) {
+const createPlayer = function(playerName, gamePiece, isAi) {
     // assign X || O
     // based off that  determine board piece?
     let getPiece = () => { return gamePiece; }
@@ -74,12 +74,18 @@ Updates DOM
 */
 let displayController = (function() { // basically the game controller
 
-    // let player1 = null;
-    // let player2 = null;
-    let player2 = createPlayer('mark', 'O', false);
-    let player1 = createPlayer('alex', 'X', false);
-    let playerTurn = player1;
+    let vsAI = false;
+    let player1 = null;
+    let player2 = null;
+    let playerTurn = null;
+    let getPlayer1 = () => { return player1; }
+    let getPlayer2 = () => { return player2; }
+    let setPlayers = (p1, p2) => { 
+        player1 = p1;
+        player2 = p2;
+    }
     let getTurn = () => { return playerTurn; }
+    let setTurn = (player) => { playerTurn = player; }
     let switchTurn = () => {        
         playerTurn = (playerTurn === player1) ? player2 : player1;
     }
@@ -97,6 +103,11 @@ let displayController = (function() { // basically the game controller
     }
     
     return {
+        vsAI,
+        setPlayers,
+        getPlayer1,
+        getPlayer2,
+        setTurn,
         getTurn,
         switchTurn,
         playerWon,
@@ -104,12 +115,63 @@ let displayController = (function() { // basically the game controller
     }
 })();
 
+function vsPlayer() {
+    resetTiles();
+    displayController.vsAI = false;
+    document.querySelector('.player-option').hidden = false;
+    document.querySelector('#player2-input').hidden = false;
+}
+
+function vsAI() {
+    resetTiles();
+    displayController.vsAI = true;
+    document.querySelector('.player-option').hidden = false;
+    document.querySelector('#player2-input').hidden = true;
+}
+
+function checkSetInput() {
+    const player1Input = document.querySelector('#player1-input').value;
+    const player2Input = document.querySelector('#player2-input').value;
+    if (displayController.vsAI) {
+        if (player1Input === '') {
+            alert('Please enter in a name for player 1');
+            console.log(player1Input + ' ' + player2Input);
+            return false;
+        } else {
+            displayController.setPlayers(
+                createPlayer(player1Input, 'X', false),
+                createPlayer('AI', 'O', true));
+        }
+    } else {
+        if (player1Input === '' || player2Input === '') {
+            alert('Please enter a name for both players');
+            console.log(player1Input + ' ' + player2Input);
+            return false;
+        } else {
+            displayController.setPlayers(createPlayer(player1Input, 'X', false),
+                createPlayer(player2Input, 'O', false));
+        }
+    }
+    displayController.setTurn(displayController.getPlayer1());
+    return true;
+}
+
+function startGame() {
+    if (checkSetInput()) {
+        document.querySelector('.tile-table').hidden = false;
+        document.querySelector('.div-option').hidden = true;
+    }
+}
+
 function resetTiles() {
     gameBoard.resetBoard();
     let tiles = Array.from(document.querySelectorAll('.tile'));
     tiles.forEach( (tile) => {
         tile.textContent = '';
+        tile.addEventListener('click', markTile);
     });
+    document.querySelector('.tile-table').hidden = true;
+    document.querySelector('.div-option').hidden = false;
 }
 
 function freezeTiles() {
@@ -121,12 +183,14 @@ function freezeTiles() {
 
 function markTile() {
     if (!this.textContent) {
+        console.log('marking tile: ' + displayController.getTurn());
         this.textContent = displayController.getTurn().getPiece();
-        gameBoard.setTile(this.id, displayController.getTurn());    
+        gameBoard.setTile(this.id, displayController.getTurn()); 
     }
 }
 
 function initializeTiles() {
+    document.querySelector('.tile-table').hidden = true;
     let tiles = Array.from(document.querySelectorAll('.tile'));
     let tileNum = 0;
     tiles.forEach( (tile) => {
@@ -136,6 +200,17 @@ function initializeTiles() {
     });    
 }
 
-document.querySelector('.reset-button').addEventListener('click', resetTiles);
+function initializeGame() {
+    document.querySelector('.player-option').hidden = true;
+    document.querySelector('#player2-input').hidden = true;
+    document.querySelector('#status-label').hidden = true;
+    initializeTiles();
 
-initializeTiles();
+}
+
+document.querySelector('.reset-button').addEventListener('click', resetTiles);
+document.querySelector('.start-button').addEventListener('click', startGame);
+document.querySelector('#pVp').addEventListener('click', vsPlayer);
+document.querySelector('#pVa').addEventListener('click', vsAI);
+
+initializeGame();
