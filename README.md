@@ -24,4 +24,8 @@ game:
 */
 
 TODO:
-- update index to use table instead of dynamically created divs
+-   refactor tile selection 
+-   minimax algorithm for AI
+-   refactor gameplay logic 
+
+
