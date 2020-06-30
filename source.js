@@ -27,26 +27,21 @@ let gameBoard = (function() {
     let setTile = (index, player) => {      // player selects tile
         board[index] = player.getPiece();   // mark tile
         console.log(checkWinner(player));
-        if (checkWinner(player)) {                // check if player won
-            // update the displayController
-            // displayController needs a win function
+        if (checkWinner(player)) {
             displayController.playerWon(player);
             console.log('won');
             return;
-        } else {                            // change turns
+        } else {
             console.log('switching turns');
             displayController.switchTurn();
         }
+        changeStatus();
         checkBoard();
     }
     let checkBoard = () => {
         if (!board.includes(-1)) displayController.tie();
     }
-    let checkWinner = (player) => {         // check if player won
-        // end game if won?
-        // change turns
-        // called every time a piece is placed
-        // iterate board to check if player won
+    let checkWinner = (player) => {
         let isWinner = false;
         winningCombos.forEach( (combo) => {
             if (board[combo[0]] === player.getPiece() &&
@@ -88,17 +83,18 @@ let displayController = (function() { // basically the game controller
     let setTurn = (player) => { playerTurn = player; }
     let switchTurn = () => {        
         playerTurn = (playerTurn === player1) ? player2 : player1;
+        document.querySelector('#status-label').textContent = displayController.getTurn().getName() + '\'s turn';
     }
     let playerWon = (player) => {
         console.log(player.getName() + ' WOOOOON');
         // update UI
         // freeze UI besides reset button
+        document.querySelector('#status-label').textContent = player.getName() + ' WON!!!';
         freezeTiles();
     }
     let tie = () => {
         console.log('tie!');
-        // update UI
-        // freeze UI besides reset button
+        document.querySelector('#status-label').textContent = 'TIE';
         freezeTiles();
     }
     
@@ -160,6 +156,7 @@ function startGame() {
     if (checkSetInput()) {
         document.querySelector('.tile-table').hidden = false;
         document.querySelector('.div-option').hidden = true;
+        document.querySelector('#status-label').hidden = false;
     }
 }
 
@@ -172,6 +169,8 @@ function resetTiles() {
     });
     document.querySelector('.tile-table').hidden = true;
     document.querySelector('.div-option').hidden = false;
+    document.querySelector('#status-label').hidden = true;
+    document.querySelector('#status-label').textContent = '';
 }
 
 function freezeTiles() {
@@ -187,6 +186,10 @@ function markTile() {
         this.textContent = displayController.getTurn().getPiece();
         gameBoard.setTile(this.id, displayController.getTurn()); 
     }
+}
+
+function changeStatus() {
+    document.querySelector('#status-label').value = displayController.getTurn() + '\'s turn';
 }
 
 function initializeTiles() {
@@ -205,7 +208,6 @@ function initializeGame() {
     document.querySelector('#player2-input').hidden = true;
     document.querySelector('#status-label').hidden = true;
     initializeTiles();
-
 }
 
 document.querySelector('.reset-button').addEventListener('click', resetTiles);
