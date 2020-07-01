@@ -154,6 +154,7 @@ function checkSetInput() {
 
 function startGame() {
     if (checkSetInput()) {
+        document.querySelector('.start-button').hidden = true;
         document.querySelector('.tile-table').hidden = false;
         document.querySelector('.div-option').hidden = true;
         document.querySelector('#status-label').hidden = false;
@@ -167,6 +168,7 @@ function resetTiles() {
         tile.textContent = '';
         tile.addEventListener('click', markTile);
     });
+    document.querySelector('.start-button').hidden = false;
     document.querySelector('.tile-table').hidden = true;
     document.querySelector('.div-option').hidden = false;
     document.querySelector('#status-label').hidden = true;
@@ -193,7 +195,7 @@ function changeStatus() {
 }
 
 function initializeTiles() {
-    document.querySelector('.tile-table').hidden = true;
+    document.querySelector('.tile-table').hidden = true
     let tiles = Array.from(document.querySelectorAll('.tile'));
     let tileNum = 0;
     tiles.forEach( (tile) => {

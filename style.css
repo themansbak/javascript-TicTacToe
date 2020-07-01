@@ -1,4 +1,8 @@
+body {
+    text-align: center;
+}
 .tile-table {
+    margin: 0 auto;
     width: 300px;
     height: 300px;    
     border: 1px solid black;
