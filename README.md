@@ -24,5 +24,8 @@ game:
 */
 
 TODO:
-- is there a need to have player inputted names?
-    - can i just do player O and player X?
+By Wednesday 7/1
+- add grid styling
+- add chalkboard sounds
+- add confetti sound
+- add confetti animation
